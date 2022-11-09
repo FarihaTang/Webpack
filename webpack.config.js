@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
     require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const CustomPlugin = require("./src/plugins/customPlugin");
 
 module.exports = {
     mode: "development",
@@ -45,6 +46,11 @@ module.exports = {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: "asset/resource",
             },
+            {
+                test: /\.json$/,
+                exclude: /node_modules/,
+                loader: path.resolve(__dirname, "src/loaders/json-loader.js"),
+            },
         ],
     },
     plugins: [
@@ -53,6 +59,7 @@ module.exports = {
             filename: "index.html",
             template: "src/template.html",
         }),
+        new CustomPlugin(),
         // new BundleAnalyzerPlugin(),
     ],
 };
